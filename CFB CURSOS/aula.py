@@ -5,7 +5,7 @@ from tkinter import messagebox
 
 def inserir():
     if vid.get() == "" or vnome.get() == "" or vfone.get() == "":
-        messagebox.showinfo(title="Error", message="digite todos os dados!")
+        messagebox.showinfo(title="Error", message="Digite todos os dados!")
         return
     tv.insert("", "end", values=(vid.get(), vnome.get(), vfone.get()))
     vid.delete(0, END)
@@ -14,10 +14,22 @@ def inserir():
     vid.focus()
     
 def deletar():
-    print()
-    
+    try: 
+        itemSelecionado = tv.selection()[0]
+        tv.delete(itemSelecionado)
+    except:
+        messagebox.showinfo(title="Error", message="Selecione o elemento a ser deletado")
+
 def consultar():
-    print()
+    try: 
+        itemSelecionado = tv.selection()[0]
+        valores = tv.item(itemSelecionado, "values")
+        print("ID......:" + valores)
+        print("Nome....:" + valores)
+        print("Telefone:" + valores)
+
+    except:
+        messagebox.showinfo(title="Error", message="Selecione o elemento a ser deletado")
     
     
 app = Tk()
