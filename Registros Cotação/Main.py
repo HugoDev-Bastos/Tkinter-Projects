@@ -5,12 +5,12 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from turtle import left
-import banco
+import gerenciadorDB
 
 def popular():
     tv.delete(*tv.get_children())
     vquery = "SELECT * FROM clientes order by cod"
-    linhas = banco.dql(vquery)
+    linhas = gerenciadorDB.dql(vquery)
     for i in linhas:
         tv.insert("","end", values=i)
 
@@ -20,7 +20,7 @@ def inserir():
         return
     try:
         vquery="INSERT INTO nome_cliente (nome, telefone) VALUES ("+vnome.get()+","+vfone.get()+")"
-        banco.dml(vquery)
+        gerenciadorDB.dml(vquery)
     except:
         messagebox.showinfo(title="Error", message="Erro ao inserir!")
         return
@@ -36,7 +36,7 @@ def deletar():
     vid = valores[0]
     try:
         vquery = " DELETE FROM clientes WHERE id="+vid
-        banco.dml(vquery)
+        gerenciadorDB.dml(vquery)
     except:
         messagebox.showinfo(title="Error", message="Erro ao deletar")
         return
@@ -46,7 +46,7 @@ def deletar():
 def pesquisar():
     tv.delete(*tv.get_children())
     vquery = "SELECT * FROM clientes WHERE nome_cliente LIKE '%" + vnomepesquisar.get()+ "%'"
-    linhas = banco.dql(vquery)
+    linhas = gerenciadorDB.dql(vquery)
     for i in linhas:
         tv.insert("", "end", values=i)    
     
