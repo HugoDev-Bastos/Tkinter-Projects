@@ -1,4 +1,6 @@
 from ast import Delete
+from cProfile import label
+from cgitb import text
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -7,7 +9,7 @@ import banco
 
 def popular():
     tv.delete(*tv.get_children())
-    vquery = "SELECT * FROM tb_nomes order by ID"
+    vquery = "SELECT * FROM clientes order by cod"
     linhas = banco.dql(vquery)
     for i in linhas:
         tv.insert("","end", values=i)
@@ -17,7 +19,7 @@ def inserir():
         messagebox.showinfo(title="Error", message="Digite todos os dados!")
         return
     try:
-        vquery="INSERT INTO tb_nomes (nome, fone) VALUES ("+vnome.get()+","+vfone.get()+")"
+        vquery="INSERT INTO nome_cliente (nome, telefone) VALUES ("+vnome.get()+","+vfone.get()+")"
         banco.dml(vquery)
     except:
         messagebox.showinfo(title="Error", message="Erro ao inserir!")
@@ -33,7 +35,7 @@ def deletar():
     valores = tv.item(itemSelecionado, "values")
     vid = valores[0]
     try:
-        vquery = " DELETE FROM tb_nomes WHERE id="+vid
+        vquery = " DELETE FROM clientes WHERE id="+vid
         banco.dml(vquery)
     except:
         messagebox.showinfo(title="Error", message="Erro ao deletar")
@@ -43,7 +45,7 @@ def deletar():
 
 def pesquisar():
     tv.delete(*tv.get_children())
-    vquery = "SELECT * FROM tb_nome WHERE nome LIKE '%" + vnomepesquisar.get()+ "%'"
+    vquery = "SELECT * FROM clientes WHERE nome_cliente LIKE '%" + vnomepesquisar.get()+ "%'"
     linhas = banco.dql(vquery)
     for i in linhas:
         tv.insert("", "end", values=i)    
@@ -66,19 +68,17 @@ tv.heading("telefone", text="Telefone")
 tv.pack()
 popular()
 
-## Label e Campos de Entrada
+## LabelFrame, Label, Entry, Button  => INSERIR CONTATOS
 quadroInserir = LabelFrame(app, text="Inserir Novos Contatos")
 quadroInserir.pack(fill="both", expand="yes", padx=10, pady=10)
 
 lbnome = Label(quadroInserir, text="Nome", anchor=W)
 lbnome.pack(side="left")
-
 vnome = Entry(quadroInserir)
 vnome.pack(side="left", padx=10)
 
 lbfone = Label(quadroInserir, text="Telefone", anchor=W)
 lbfone.pack(side="left")
-
 vfone = Entry(quadroInserir)
 vfone.pack(side="left", padx=10)
 
@@ -86,17 +86,24 @@ vfone.pack(side="left", padx=10)
 btn_inserir = Button(quadroInserir, text="Inserir", command=inserir)
 btn_inserir.pack(side="left", padx=10)
 
-## Butão Pesquisar
-quadroPesquisar = LabelFrame(app, text="Inserir Novos Contatos")
+## LabelFrame, Label, Entry, BUtton => PESQUISAR CONTATOS
+quadroPesquisar = LabelFrame(app, text="Pesquisar Contatos")
 quadroPesquisar.pack(fill="both", expand="yes", padx=10, pady=10)
 
-btn_consultar = Button(quadroPesquisar, text="Consultar", command=pesquisar)
-btn_consultar.pack(side="left", padx=10)
+vnomepesquisar = Entry(quadroPesquisar)
+vnomepesquisar.pack(side="left", padx=10)
+
+btn_pesquisar = Button(quadroPesquisar, text="Pesquisar", command=pesquisar)
+btn_pesquisar.pack(side="left", padx=10)
+
+btn_todos = Button(quadroPesquisar, text="Todos", command=popular)
+btn_todos.pack(side="left", padx=10)
 
 
-## Butão Deletar
-btn_deletar = Button(quadroInserir, text="Deletar", command=deletar)
-btn_deletar.pack(side="left", padx=10)
+
+
+
+
 
 
 
