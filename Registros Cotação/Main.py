@@ -55,15 +55,16 @@ app.title("")
 
 
 ## TrenView
-quadroGrid = LabelFrame(app, text="Contatos")
+quadroGrid = LabelFrame(app, text="Registros")
 quadroGrid.pack(fill="both", expand="yes", padx=10, pady=10)
 
-tv = ttk.Treeview(quadroGrid, columns=("id", "nome", "telefone"), show="headings")
-tv.column("id", minwidth=0, width=50)
-tv.column("nome", minwidth=0, width=250)
+tv = ttk.Treeview(quadroGrid, columns=("id", "produto", "telefone"), show="headings")
+tv.column("id", minwidth=0, width=50,)
+tv.column("produto", minwidth=0, width=150)
 tv.column("telefone", minwidth=0, width=100)
+
 tv.heading("id", text="ID")
-tv.heading("nome", text="Nome")
+tv.heading("produto", text="Produto")
 tv.heading("telefone", text="Telefone")
 tv.pack()
 popular()
