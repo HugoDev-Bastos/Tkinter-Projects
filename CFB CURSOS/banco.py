@@ -2,8 +2,8 @@ import sqlite3
 from sqlite3 import Error
 import os
 
-pastaApp=os.path.dirname(__file__)
-nomeBanco="pastaApp" \\agenda.db"
+pastaApp = os.path.dirname(__file__)
+nomeBanco = pastaApp+ "\\agenda.db"
 
 def conexaoBanco():
     con=None
@@ -22,14 +22,12 @@ def dql(query): #select
     return res
 
 def dml(query): #insert, update, delete
-    try:
-        vcon=conexaoBanco()
-        c=vcon.cursor()
-        c.execute(query)
-        vcon.commit()
-        vcon.close()
-    except Error as ex:
-         print(ex)
-    return con
+    vcon=conexaoBanco()
+    c=vcon.cursor()
+    c.execute(query)
+    res = c.fetchall()
+    vcon.commit()
+    vcon.close()
+    return res
         
     
